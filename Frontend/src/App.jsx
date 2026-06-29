@@ -36,7 +36,7 @@ import useGetPublishedCourse from "./customHooks/useGetPublishedCourse";
 import getAllReviews from "./customHooks/getAllReviews";
 
 // export const serverUrl =    "http://10.93.200.103:5000";
-export const serverUrl = "http://192.168.75.1:5000";
+export const serverUrl = "https://e-learning-mern-1.onrender.com";
 // export const serverUrl = import.meta.env.VITE_API_URL;
 // export const serverUrl = "http://localhost:5000";
 // export const serverUrl = "http://192.168.142.1:5000";
