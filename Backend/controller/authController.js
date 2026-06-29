@@ -45,11 +45,10 @@ export const signUp = async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: true,
-      secure: false, // true in production
-      sameSite: "lax",
+      secure: true,          // ✅ MUST be true in production
+      sameSite: "None",      // ✅ REQUIRED for cross-origin
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-
     // remove password before sending response
     user.password = undefined;
 
@@ -62,30 +61,33 @@ export const signUp = async (req, res) => {
   }
 };
 
-export const login=async(req,res)=>{
-    try {
-        let {email,password}= req.body
-        let user= await User.findOne({email})
-        if(!user){
-            return res.status(400).json({message:"user does not exist"})
-        }
-        let isMatch =await bcrypt.compare(password, user.password)
-        if(!isMatch){
-            return res.status(400).json({message:"incorrect Password"})
-        }
-        let token =await genToken(user._id)
-        res.cookie("token",token,{
-            httpOnly:true,
-            secure:false,
-            sameSite: "lax",
-            maxAge: 7 * 24 * 60 * 60 * 1000
-        })
-        return res.status(200).json(user)
-
-    } catch (error) {
-        console.log("login error")
-        return res.status(500).json({message:`login Error ${error}`})
+export const login = async (req, res) => {
+  try {
+    let { email, password } = req.body
+    let user = await User.findOne({ email })
+    if (!user) {
+      return res.status(400).json({ message: "user does not exist" })
     }
+    let isMatch = await bcrypt.compare(password, user.password)
+    if (!isMatch) {
+      return res.status(400).json({ message: "incorrect Password" })
+    }
+    let token = await genToken(user._id)
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,        // ✅ REQUIRED
+      sameSite: "None",    // ✅ REQUIRED
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: "/"
+    });
+    return res.status(200).json({
+      user,
+      token
+    });
+  } catch (error) {
+    console.log("login error")
+    return res.status(500).json({ message: `login Error ${error}` })
+  }
 }
 
 export const getMe = async (req, res) => {

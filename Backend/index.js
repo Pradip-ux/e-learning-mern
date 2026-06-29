@@ -50,7 +50,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://e-learning-mern-kkzk.vercel.app/"
+      "https://e-learning-mern-ten.vercel.app"
     ],
     credentials: true,
   })
@@ -80,7 +80,8 @@ app.use("/", SupportRouter);
 app.get("/", (req, res) => {
   res.send("Hello from server");
 });
-
+console.log("Mongo URL:", process.env.MONGODB_URL);
+console.log("JWT:", process.env.JWT_SECRET);
 const startServer = async () => {
   try {
     await connectDb();
