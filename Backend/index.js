@@ -50,7 +50,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://e-learning-mern-ten.vercel.app"
+      "https://e-learning-mern-git-main-pradip-uxs-projects.vercel.app"
     ],
     credentials: true,
   })
